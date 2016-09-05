@@ -100,18 +100,17 @@ def get_config(path="~/.pypirc"):
 
 
 def get_repository_from_config(config_file, repository, repository_url=None):
+    if repository_url and "://" in repository_url:
+        # URL takes precedence so we'll give back a dummy repo set
+        return {
+            "repository": repository_url,
+            "username": None,
+            "password": None,
+        }
     # Get our config from the .pypirc file
     try:
         return get_config(config_file)[repository]
     except KeyError:
-        if repository_url and "://" in repository_url:
-            # assume that the repsoitory is actually an URL and just sent
-            # them a dummy with the repo set
-            return {
-                "repository": repository_url,
-                "username": None,
-                "password": None,
-            }
         msg = (
             "Missing '{repo}' section from the configuration file\n"
             "or not a complete URL in --repository.\n"

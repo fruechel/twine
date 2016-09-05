@@ -129,6 +129,19 @@ def test_get_repository_config_missing(tmpdir):
     assert utils.get_repository_from_config(pypirc, "pypi") == exp
 
 
+def test_get_repository_config_url_precendence(tmpdir):
+    pypirc = os.path.join(str(tmpdir), ".pypirc")
+
+    repository_url = "https://notexisting.python.org/pypi"
+    exp = {
+        "repository": repository_url,
+        "username": None,
+        "password": None,
+    }
+    assert (utils.get_repository_from_config(pypirc, 'pypi', repository_url) ==
+            exp)
+
+
 def test_get_config_deprecated_pypirc():
     tests_dir = os.path.dirname(os.path.abspath(__file__))
     deprecated_pypirc_path = os.path.join(tests_dir, 'fixtures',

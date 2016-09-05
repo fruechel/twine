@@ -169,9 +169,8 @@ def main(args):
         env="TWINE_REPOSITORY_URL",
         default=None,
         required=False,
-        help="The repository URL to upload the package to. This can be "
-             "specified with --repository because it will be used if there is "
-             "no configuration for the value passed to --repository."
+        help="The repository URL to upload the package to. This takes "
+             "precedence over --repository."
     )
     parser.add_argument(
         "-s", "--sign",
